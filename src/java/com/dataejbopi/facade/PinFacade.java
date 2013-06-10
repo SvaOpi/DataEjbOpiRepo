@@ -69,6 +69,12 @@ public class PinFacade extends AbstractFacade<Pin> {
                 
                 pin.setPerson(person);   
                 pin.setPayment(payment);
+                Pin pinVo = new Pin();
+                Payment paidVo = new Payment();
+                pinVo=pin;
+                paidVo=payment;
+                paidVo.setPin(null);
+                pinVo.setPayment(paidVo);
                 edit(pin);
                 rob.setData(find(pin.getId()));    
                 rob.setSuccess(true);
@@ -92,7 +98,11 @@ public class PinFacade extends AbstractFacade<Pin> {
                 rob.setErr_message("Cant Find this Object");
                 rob.setSuccess(false);
             } else {
-                rob.setData(pin);
+                //pin.getPayment().setPin(null);
+                Pin vo = new Pin();
+                vo=pin;
+                vo.setPayment(null);
+                rob.setData(vo);
                 rob.setSuccess(true);
             }
             return rob;

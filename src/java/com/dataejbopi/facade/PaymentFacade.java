@@ -71,7 +71,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                 payment.setPaydate(new Date());
                 pin.setPinstate("Paid");
                 pin.setPayment(payment);
-                edit(payment);         
+                edit(payment);
                 rob.setData(payment);
                 rob.setSuccess(true);
             }else{
@@ -105,6 +105,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                     payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
                     edit(payment);
                     
+                    payment.getPin().setPayment(null);                    
                     rob.setData(payment);
                     rob.setSuccess(true);
                 }
