@@ -49,7 +49,7 @@ public class Eps implements Serializable {
     @Size(max = 255)
     @Column(name = "NAME")
     private String name;
-    @OneToMany(mappedBy = "eps")
+    @OneToMany(mappedBy = "eps", orphanRemoval = true)
     private Collection<Person> personCollection;
 
     public Eps() {

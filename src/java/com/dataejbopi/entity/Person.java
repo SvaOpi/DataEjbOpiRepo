@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "CEDULE")
     private Long cedule;
@@ -46,7 +46,7 @@ public class Person implements Serializable {
     @JoinColumn(name = "EPS_ID", referencedColumnName = "ID")
     @ManyToOne
     private Eps eps;
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", orphanRemoval = true)
     private Collection<Pin> pinCollection;
 
     public Person() {

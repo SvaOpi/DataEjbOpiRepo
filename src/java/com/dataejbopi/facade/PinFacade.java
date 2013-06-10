@@ -24,7 +24,9 @@ public class PinFacade extends AbstractFacade<Pin> {
     @PersistenceContext(unitName = "DataEjbOpiPU")
     private EntityManager em;
     @EJB
-    private PersonFacade personFacade;
+    private PersonFacade personFacade;    
+    @EJB
+    private PaymentFacade paymentFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -41,25 +43,34 @@ public class PinFacade extends AbstractFacade<Pin> {
             Person person = (Person) personFacade.findByCedule(personCedule).getData();  
             Double salary = 1000000.0; // Find Saraly from EPS service          
             Date currentDate = new Date();
+            Date limitDate = new Date();         
+            currentDate.setMonth(month-1);
+            limitDate.setMonth(month);
+            System.out.println("fecha actual: "+ currentDate.getMonth());
+            System.out.println("fecha limite: "+limitDate.getMonth());
             if(person != null){
-                Pin pin = new Pin();
-                pin.setPinstate("UnPaid");
-                pin.setPerson(person);                
-                currentDate.setMonth(month);
-                pin.setCreationdate(currentDate);
-                currentDate.setMonth(currentDate.getMonth()+1);
-                pin.setLimitdate(currentDate);               
-                
-                Payment payment = new Payment();
-                payment.setHealtServiceValue(salary*0.85);
-                payment.setOpiServiceValue(payment.getHealtServiceValue()*0.01);
-                payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
-                
-                pin.setPayment(payment);
-                create(pin);
                 List<Pin> listPin = findAll();
-                pin = listPin.get(listPin.size()-1);
-                rob.setData(pin);
+                for(Pin p:listPin){
+                    if(p.getPerson().getCedule()==personCedule && p.getCreationdate().getMonth()==month-1){
+                        rob.setSuccess(false);
+                        rob.setErr_message("The pin for this month was already registered!");
+                        return rob;
+                    }
+                }
+                Pin pin = new Pin();
+                pin.setPinstate("UnPaid"); 
+                pin.setCreationdate(currentDate);   
+                pin.setLimitdate(limitDate);       
+                create(pin);
+                
+                listPin = findAll();
+                pin = listPin.get(listPin.size()-1);    
+                Payment payment = (Payment) paymentFacade.createPaymentForPin(pin.getId(), salary).getData();
+                
+                pin.setPerson(person);   
+                pin.setPayment(payment);
+                edit(pin);
+                rob.setData(find(pin.getId()));    
                 rob.setSuccess(true);
             }else{
                 rob.setSuccess(false);

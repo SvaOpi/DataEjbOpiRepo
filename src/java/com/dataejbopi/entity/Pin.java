@@ -55,7 +55,7 @@ public class Pin implements Serializable {
     @JoinColumn(name = "PERSONS_CEDULE", referencedColumnName = "CEDULE")
     @ManyToOne
     private Person person;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Payment payment;
 
     public Pin() {
