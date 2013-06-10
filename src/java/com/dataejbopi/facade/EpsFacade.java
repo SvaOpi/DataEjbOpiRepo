@@ -5,10 +5,8 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Eps;
-import com.dataejbopi.entity.Person;
 import com.dataejbsra.vo.ROb;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,43 +16,30 @@ import javax.persistence.PersistenceContext;
  * @author Usuario1
  */
 @Stateless
-public class PersonFacade extends AbstractFacade<Person> {
+public class EpsFacade extends AbstractFacade<Eps> {
     @PersistenceContext(unitName = "DataEjbOpiPU")
     private EntityManager em;
-    @EJB
-    private EpsFacade epsFacade = new EpsFacade();
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public PersonFacade() {
-        super(Person.class);
+    public EpsFacade() {
+        super(Eps.class);
     }
     
-    public ROb registerPerson(Long cedule, Long epsId){
+    public ROb registerEps(String name, Long accountnumber){
         ROb rob = new ROb();
         try{
-            Eps eps = (Eps) epsFacade.findById(epsId).getData();
-            Person person = (Person) findByCedule(cedule).getData(); //Fin person on SRA        
-            //if(eps!=null && person!=null){
-            if(eps!=null ){
-                person = new Person();
-                person.setCedule(cedule);
-                person.setDtype("CC");
-                person.setEps(eps);
-                System.out.println("setting");
-                create(person);                
-                System.out.println("creating");
-                List<Person> listPerson = findAll();
-                person = listPerson.get(listPerson.size()-1);
-                rob.setData(person);
-                rob.setSuccess(true);
-            }else{
-                rob.setSuccess(false);
-                rob.setErr_message("Cant find that object!");
-            }            
+            Eps eps = new Eps();
+            eps.setName(name);
+            eps.setAccountnumber(accountnumber);
+            create(eps);
+            List<Eps> listEps = findAll();
+            eps = listEps.get(listEps.size()-1);
+            rob.setData(eps);
+            rob.setSuccess(true);
             return rob;
         }catch(Exception e){
             rob.setSuccess(false);
@@ -63,15 +48,15 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb findByCedule(Long cedule){
+    public ROb findById(Long id){
         ROb rob = new ROb();
         try{
-            Person person = find(cedule);// Find Person with service of SRA   
-            if(person==null){
+            Eps eps = find(id);
+            if(eps==null){
                 rob.setErr_message("Cant Find this Object");
                 rob.setSuccess(false);
             } else {
-                rob.setData(person);
+                rob.setData(eps);
                 rob.setSuccess(true);
             }
             return rob;
@@ -82,12 +67,12 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb removeByCedule(Long cedule){
+    public ROb removeById(Long id){
         ROb rob = new ROb();
         try{
-            rob = findByCedule(cedule);
+            rob = findById(id);
             if(rob.isSuccess()==true){
-                Person eps = (Person) rob.getData();
+                Eps eps = (Eps) rob.getData();
                 remove(eps);
                 rob.setSuccess(true);
                 rob.setData(null);
@@ -99,5 +84,4 @@ public class PersonFacade extends AbstractFacade<Person> {
             return rob;
         }
     }    
-    
 }

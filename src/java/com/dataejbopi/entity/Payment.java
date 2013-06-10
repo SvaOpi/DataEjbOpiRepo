@@ -14,15 +14,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,8 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
     @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
-    @NamedQuery(name = "Payment.findByExtrapay", query = "SELECT p FROM Payment p WHERE p.extrapay = :extrapay"),
-    @NamedQuery(name = "Payment.findByPay", query = "SELECT p FROM Payment p WHERE p.pay = :pay"),
+    @NamedQuery(name = "Payment.findByPaydate", query = "SELECT p FROM Payment p WHERE p.paydate = :paydate"),
     @NamedQuery(name = "Payment.findByTotalvalue", query = "SELECT p FROM Payment p WHERE p.totalvalue = :totalvalue")})
 public class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,20 +41,20 @@ public class Payment implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
-    @Column(name = "EXTRAPAY")
+    @Column(name = "PAYDATE")
     @Temporal(TemporalType.DATE)
-    private Date extrapay;
-    @Column(name = "PAY")
-    @Temporal(TemporalType.DATE)
-    private Date pay;
+    private Date paydate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "TOTALVALUE")
     private Double totalvalue;
-    @JoinColumn(name = "PIN_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private Pin pinId;
-    @OneToMany(mappedBy = "paymentId")
-    private Collection<Pin> pinCollection;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column
+    private Double opiServiceValue;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column
+    private Double healtServiceValue;
+    @OneToOne
+    private Pin pin;
 
     public Payment() {
     }
@@ -74,20 +71,12 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Date getExtrapay() {
-        return extrapay;
+    public Date getPaydate() {
+        return paydate;
     }
 
-    public void setExtrapay(Date extrapay) {
-        this.extrapay = extrapay;
-    }
-
-    public Date getPay() {
-        return pay;
-    }
-
-    public void setPay(Date pay) {
-        this.pay = pay;
+    public void setPaydate(Date paydate) {
+        this.paydate = paydate;
     }
 
     public Double getTotalvalue() {
@@ -98,21 +87,28 @@ public class Payment implements Serializable {
         this.totalvalue = totalvalue;
     }
 
-    public Pin getPinId() {
-        return pinId;
+    public Double getOpiServiceValue() {
+        return opiServiceValue;
     }
 
-    public void setPinId(Pin pinId) {
-        this.pinId = pinId;
+    public void setOpiServiceValue(Double opiServiceValue) {
+        this.opiServiceValue = opiServiceValue;
     }
 
-    @XmlTransient
-    public Collection<Pin> getPinCollection() {
-        return pinCollection;
+    public Double getHealtServiceValue() {
+        return healtServiceValue;
     }
 
-    public void setPinCollection(Collection<Pin> pinCollection) {
-        this.pinCollection = pinCollection;
+    public void setHealtServiceValue(Double healtServiceValue) {
+        this.healtServiceValue = healtServiceValue;
+    }
+   
+    public Pin getPin() {
+        return pin;
+    }
+
+    public void setPin(Pin pin) {
+        this.pin = pin;
     }
 
     @Override

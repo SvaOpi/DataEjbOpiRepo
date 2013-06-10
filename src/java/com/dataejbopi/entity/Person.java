@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,7 +43,10 @@ public class Person implements Serializable {
     @Size(max = 31)
     @Column(name = "DTYPE")
     private String dtype;
-    @OneToMany(mappedBy = "personsCedule")
+    @JoinColumn(name = "EPS_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Eps eps;
+    @OneToMany(mappedBy = "person")
     private Collection<Pin> pinCollection;
 
     public Person() {
@@ -65,6 +70,14 @@ public class Person implements Serializable {
 
     public void setDtype(String dtype) {
         this.dtype = dtype;
+    }
+
+    public Eps getEps() {
+        return eps;
+    }
+
+    public void setEps(Eps eps) {
+        this.eps = eps;
     }
 
     @XmlTransient

@@ -5,7 +5,6 @@
 package com.dataejbopi.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,12 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,7 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Pin.findAll", query = "SELECT p FROM Pin p"),
     @NamedQuery(name = "Pin.findById", query = "SELECT p FROM Pin p WHERE p.id = :id"),
-    @NamedQuery(name = "Pin.findByCreation", query = "SELECT p FROM Pin p WHERE p.creation = :creation")})
+    @NamedQuery(name = "Pin.findByCreationdate", query = "SELECT p FROM Pin p WHERE p.creationdate = :creationdate"),
+    @NamedQuery(name = "Pin.findByLimitdate", query = "SELECT p FROM Pin p WHERE p.limitdate = :limitdate"),
+    @NamedQuery(name = "Pin.findByPinstate", query = "SELECT p FROM Pin p WHERE p.pinstate = :pinstate")})
 public class Pin implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,17 +43,20 @@ public class Pin implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Long id;
-    @Column(name = "CREATION")
+    @Column(name = "CREATIONDATE")
     @Temporal(TemporalType.DATE)
-    private Date creation;
-    @OneToMany(mappedBy = "pinId")
-    private Collection<Payment> paymentCollection;
+    private Date creationdate;
+    @Column(name = "LIMITDATE")
+    @Temporal(TemporalType.DATE)
+    private Date limitdate;
+    @Size(max = 255)
+    @Column(name = "PINSTATE")
+    private String pinstate;
     @JoinColumn(name = "PERSONS_CEDULE", referencedColumnName = "CEDULE")
     @ManyToOne
-    private Person personsCedule;
-    @JoinColumn(name = "PAYMENT_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private Payment paymentId;
+    private Person person;
+    @OneToOne
+    private Payment payment;
 
     public Pin() {
     }
@@ -69,37 +73,44 @@ public class Pin implements Serializable {
         this.id = id;
     }
 
-    public Date getCreation() {
-        return creation;
+    public Date getCreationdate() {
+        return creationdate;
     }
 
-    public void setCreation(Date creation) {
-        this.creation = creation;
+    public void setCreationdate(Date creationdate) {
+        this.creationdate = creationdate;
     }
 
-    @XmlTransient
-    public Collection<Payment> getPaymentCollection() {
-        return paymentCollection;
+    public Date getLimitdate() {
+        return limitdate;
     }
 
-    public void setPaymentCollection(Collection<Payment> paymentCollection) {
-        this.paymentCollection = paymentCollection;
+    public void setLimitdate(Date limitdate) {
+        this.limitdate = limitdate;
     }
 
-    public Person getPersonsCedule() {
-        return personsCedule;
+    public String getPinstate() {
+        return pinstate;
     }
 
-    public void setPersonsCedule(Person personsCedule) {
-        this.personsCedule = personsCedule;
+    public void setPinstate(String pinstate) {
+        this.pinstate = pinstate;
     }
 
-    public Payment getPaymentId() {
-        return paymentId;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPaymentId(Payment paymentId) {
-        this.paymentId = paymentId;
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override
