@@ -7,7 +7,7 @@ package com.dataejbopi.facade;
 import com.dataejbopi.entity.Payment;
 import com.dataejbopi.entity.Person;
 import com.dataejbopi.entity.Pin;
-import com.dataejbsra.vo.ROb;
+import com.dataejbopi.vo.ROb;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;

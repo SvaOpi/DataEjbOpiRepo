@@ -5,7 +5,7 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Eps;
-import com.dataejbsra.vo.ROb;
+import com.dataejbopi.vo.ROb;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

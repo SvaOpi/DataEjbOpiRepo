@@ -6,7 +6,7 @@ package com.dataejbopi.ws;
 
 import com.dataejbopi.entity.Eps;
 import com.dataejbopi.facade.EpsFacade;
-import com.dataejbsra.vo.ROb;
+import com.dataejbopi.vo.ROb;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
