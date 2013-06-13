@@ -44,7 +44,7 @@ public class PinFacade extends AbstractFacade<Pin> {
         ROb rob = new ROb();
         try{
             Person person = (Person) personFacade.findByCedule(personCedule).getData();  
-            Double salary = 1000000.0; // Find Saraly from EPS service          
+            Double salary = person.getSalary();
             Date currentDate =localDateTimer.localDate;
             Date limitDate = new Date(); 
             limitDate.setDate(1);

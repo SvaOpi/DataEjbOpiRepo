@@ -9,8 +9,6 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -43,6 +41,8 @@ public class Person implements Serializable {
     @Size(max = 31)
     @Column(name = "DTYPE")
     private String dtype;
+    @Column
+    private Double salary;
     @JoinColumn(name = "EPS_ID", referencedColumnName = "ID")
     @ManyToOne
     private Eps eps;
@@ -80,6 +80,14 @@ public class Person implements Serializable {
         this.eps = eps;
     }
 
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+    
     @XmlTransient
     public Collection<Pin> getPinCollection() {
         return pinCollection;

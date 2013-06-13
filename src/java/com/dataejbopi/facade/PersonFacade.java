@@ -33,20 +33,19 @@ public class PersonFacade extends AbstractFacade<Person> {
         super(Person.class);
     }
     
-    public ROb registerPerson(Long cedule, Long epsId){
+    public ROb registerPerson(Long cedule,Double salary, Long epsId){
         ROb rob = new ROb();
         try{
             Eps eps = (Eps) epsFacade.findById(epsId).getData();
-            Person person = (Person) findByCedule(cedule).getData(); //Fin person on SRA        
+            Person person = (Person) findByCedule(cedule).getData(); //Find person on SRA        
             //if(eps!=null && person!=null){
             if(eps!=null ){
                 person = new Person();
                 person.setCedule(cedule);
                 person.setDtype("CC");
                 person.setEps(eps);
-                System.out.println("setting");
+                person.setSalary(salary);
                 create(person);                
-                System.out.println("creating");
                 List<Person> listPerson = findAll();
                 person = listPerson.get(listPerson.size()-1);
                 rob.setData(person);
