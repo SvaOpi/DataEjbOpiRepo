@@ -5,8 +5,11 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Eps;
+import com.dataejbopi.entity.Payment;
 import com.dataejbopi.entity.Person;
+import com.dataejbopi.entity.Pin;
 import com.dataejbopi.vo.ROb;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -45,9 +48,10 @@ public class PersonFacade extends AbstractFacade<Person> {
                 person.setDtype("CC");
                 person.setEps(eps);
                 person.setSalary(salary);
-                create(person);                
+                create(person);
                 List<Person> listPerson = findAll();
                 person = listPerson.get(listPerson.size()-1);
+                //ROb rob2 = CompanyFacade.registerRelation(person.getCedule(), opiID, "user", opiPassword);
                 rob.setData(person);
                 rob.setSuccess(true);
             }else{
@@ -62,10 +66,56 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb findByCedule(Long cedule){
+    public ROb lastPaidDone (Long cedule){
         ROb rob = new ROb();
         try{
             Person person = find(cedule);// Find Person with service of SRA   
+            if(person==null){
+                rob.setErr_message("Cant Find this Object");
+                rob.setSuccess(false);
+            } else {
+                ArrayList<Pin> listPin =  (ArrayList<Pin>) person.getPinCollection();
+                Payment lastPaid = listPin.get(listPin.size()-1).getPayment();
+                rob.setData(lastPaid);
+                rob.setSuccess(true);
+            }
+            return rob;
+        }catch(Exception e){
+            rob.setSuccess(false);
+            rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
+    
+    public ROb validateLogin(String userName, String userPassword){
+        ROb rob = new ROb();
+        try{
+            Person person = find(1);// Find Person in OPI  
+            //CompanyPerson companyPerson = (CompanyPerson)validateRelation(userNane, opiID, userPassword).getData() //// Validate relation in SRA ( 
+            //if(person!=null && companyPerson != null and companyPerson.isSucces()){  //validation data
+            if(person!=null){
+                //String rol = companyPerson.getRol();
+                //rob.setData(rol);
+                rob.setData(person);
+                rob.setSuccess(true);
+            } else {
+                rob.setErr_message("Cant Find this Object");
+                rob.setSuccess(false);
+            }
+            return rob;
+        }catch(Exception e){
+            rob.setSuccess(false);
+            rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
+    
+    public ROb findByCedule(Long cedule){
+        ROb rob = new ROb();
+        try{
+            Person person = find(cedule);// find person  in OPI 
+            //Person person2 = (person)findByCedule(cedule).getData() // find person  in SRA 
+            //if(person!=null && person2 != null){  //validation data             
             if(person==null){
                 rob.setErr_message("Cant Find this Object");
                 rob.setSuccess(false);
@@ -87,6 +137,7 @@ public class PersonFacade extends AbstractFacade<Person> {
             rob = findByCedule(cedule);
             if(rob.isSuccess()==true){
                 Person eps = (Person) rob.getData();
+                //ROb rob2 = CompanyFacade.removeRelation(person.getCedule(), opiID, opiPassword);
                 remove(eps);
                 rob.setSuccess(true);
                 rob.setData(null);

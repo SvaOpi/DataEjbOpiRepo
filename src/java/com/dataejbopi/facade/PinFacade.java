@@ -50,8 +50,6 @@ public class PinFacade extends AbstractFacade<Pin> {
             limitDate.setDate(1);
             limitDate.setMonth(localDateTimer.localDate.getMonth()+1);
             limitDate.setYear(localDateTimer.localDate.getYear());
-            System.out.println("fecha actual: "+ currentDate);
-            System.out.println("fecha limite: "+limitDate);
             if(person != null){
                 List<Pin> listPin = findAll();
                 for(Pin p:listPin){
@@ -74,6 +72,7 @@ public class PinFacade extends AbstractFacade<Pin> {
                 pin.setPerson(person);   
                 pin.setPayment(payment);
                 edit(pin);
+                System.out.println("Pin "+ pin.getId() +" created for person whit cedule " + personCedule);
                 rob.setData(pin);    
                 rob.setSuccess(true);
             }else{
