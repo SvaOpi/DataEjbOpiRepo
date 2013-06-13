@@ -6,6 +6,7 @@ package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Payment;
 import com.dataejbopi.entity.Pin;
+import com.dataejbopi.timer.LocalDateTimer;
 import com.dataejbopi.vo.ROb;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,8 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     private EntityManager em;
     @EJB
     private PinFacade pinFacade = new PinFacade();
+    @EJB
+    private LocalDateTimer localDateTimer;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -68,7 +71,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             // Find and validate with a bank transaciont
             if(payment != null){
                 Pin pin = payment.getPin();
-                payment.setPaydate(new Date());
+                payment.setPaydate(localDateTimer.localDate);
                 pin.setPinstate("Paid");
                 pin.setPayment(payment);
                 edit(payment);
@@ -90,11 +93,12 @@ public class PaymentFacade extends AbstractFacade<Payment> {
         ROb rob = new ROb();
         try{     
             Payment payment =  (Payment) findById(idPayment).getData();
-            Date currentDate = new Date();
+            Date currentDate = localDateTimer.localDate;
             Date newLimitDate;
             Double newHealtServiceValue;
             if(payment != null && payment.getPaydate()==null){
                 while(currentDate.after(payment.getPin().getLimitdate())){
+                    System.out.println("Update payment:"+idPayment + " for date:" + payment.getPin().getLimitdate());
                     newLimitDate=payment.getPin().getLimitdate();
                     newLimitDate.setMonth(newLimitDate.getMonth()+1);
                     newHealtServiceValue = payment.getHealtServiceValue()*1.1;
@@ -104,8 +108,8 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                     payment.setOpiServiceValue(newHealtServiceValue*0.01);
                     payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
                     edit(payment);
-                    
-                    payment.getPin().setPayment(null);                    
+                    Pin pin =  payment.getPin();
+                    pinFacade.edit(pin);
                     rob.setData(payment);
                     rob.setSuccess(true);
                 }

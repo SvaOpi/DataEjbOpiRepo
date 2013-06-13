@@ -4,9 +4,6 @@
     <service name="EpsWs">
       <implementation-class>com.dataejbopi.ws.EpsWs</implementation-class>
     </service>
-    <service name="PinWs">
-      <implementation-class>com.dataejbopi.ws.PinWs</implementation-class>
-    </service>
     <service name="PersonOpiWs">
       <implementation-class>com.dataejbopi.ws.PersonOpiWs</implementation-class>
     </service>

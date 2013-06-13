@@ -7,6 +7,7 @@ package com.dataejbopi.facade;
 import com.dataejbopi.entity.Payment;
 import com.dataejbopi.entity.Person;
 import com.dataejbopi.entity.Pin;
+import com.dataejbopi.timer.LocalDateTimer;
 import com.dataejbopi.vo.ROb;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,8 @@ public class PinFacade extends AbstractFacade<Pin> {
     private PersonFacade personFacade;    
     @EJB
     private PaymentFacade paymentFacade;
+    @EJB
+    private LocalDateTimer localDateTimer;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -37,21 +40,22 @@ public class PinFacade extends AbstractFacade<Pin> {
         super(Pin.class);
     }
     
-    public ROb registerPin(Long personCedule, int month){
+    public ROb registerPin(Long personCedule){
         ROb rob = new ROb();
         try{
             Person person = (Person) personFacade.findByCedule(personCedule).getData();  
             Double salary = 1000000.0; // Find Saraly from EPS service          
-            Date currentDate = new Date();
-            Date limitDate = new Date();         
-            currentDate.setMonth(month-1);
-            limitDate.setMonth(month);
-            System.out.println("fecha actual: "+ currentDate.getMonth());
-            System.out.println("fecha limite: "+limitDate.getMonth());
+            Date currentDate =localDateTimer.localDate;
+            Date limitDate = new Date(); 
+            limitDate.setDate(1);
+            limitDate.setMonth(localDateTimer.localDate.getMonth()+1);
+            limitDate.setYear(localDateTimer.localDate.getYear());
+            System.out.println("fecha actual: "+ currentDate);
+            System.out.println("fecha limite: "+limitDate);
             if(person != null){
                 List<Pin> listPin = findAll();
                 for(Pin p:listPin){
-                    if(p.getPerson().getCedule()==personCedule && p.getCreationdate().getMonth()==month-1){
+                    if(p.getPerson().getCedule()==personCedule && p.getCreationdate().getMonth()==currentDate.getMonth() && p.getCreationdate().getYear()==currentDate.getYear()){
                         rob.setSuccess(false);
                         rob.setErr_message("The pin for this month was already registered!");
                         return rob;
@@ -69,14 +73,8 @@ public class PinFacade extends AbstractFacade<Pin> {
                 
                 pin.setPerson(person);   
                 pin.setPayment(payment);
-                Pin pinVo = new Pin();
-                Payment paidVo = new Payment();
-                pinVo=pin;
-                paidVo=payment;
-                paidVo.setPin(null);
-                pinVo.setPayment(paidVo);
                 edit(pin);
-                rob.setData(find(pin.getId()));    
+                rob.setData(pin);    
                 rob.setSuccess(true);
             }else{
                 rob.setSuccess(false);
@@ -98,11 +96,7 @@ public class PinFacade extends AbstractFacade<Pin> {
                 rob.setErr_message("Cant Find this Object");
                 rob.setSuccess(false);
             } else {
-                //pin.getPayment().setPin(null);
-                Pin vo = new Pin();
-                vo=pin;
-                vo.setPayment(null);
-                rob.setData(vo);
+                rob.setData(pin);
                 rob.setSuccess(true);
             }
             return rob;
