@@ -45,11 +45,6 @@ public class PersonOpiWs {
         return ejbRef.registerPerson(cedule, salary, epsId);
     }
 
-    @WebMethod(operationName = "lastPaidDone")
-    public ROb lastPaidDone(@WebParam(name = "cedule") Long cedule) {
-        return ejbRef.lastPaidDone(cedule);
-    }
-
     @WebMethod(operationName = "validateLogin")
     public ROb validateLogin(@WebParam(name = "userName") String userName, @WebParam(name = "userPassword") String userPassword) {
         return ejbRef.validateLogin(userName, userPassword);

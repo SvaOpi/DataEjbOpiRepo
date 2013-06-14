@@ -50,6 +50,11 @@ public class PinWs {
         return ejbRef.findById(id);
     }
 
+    @WebMethod(operationName = "getLastPinCreated")
+    public ROb getLastPinCreated(@WebParam(name = "cedule") Long cedule) {
+        return ejbRef.getLastPinCreated(cedule);
+    }
+
     @WebMethod(operationName = "removeById")
     public ROb removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);

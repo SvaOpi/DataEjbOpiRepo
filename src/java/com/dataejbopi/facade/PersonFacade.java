@@ -5,11 +5,8 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Eps;
-import com.dataejbopi.entity.Payment;
 import com.dataejbopi.entity.Person;
-import com.dataejbopi.entity.Pin;
 import com.dataejbopi.vo.ROb;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -62,27 +59,6 @@ public class PersonFacade extends AbstractFacade<Person> {
         }catch(Exception e){
             rob.setSuccess(false);
             rob.setErr_message("Failed Transaction!");
-            return rob;
-        }
-    }
-    
-    public ROb lastPaidDone (Long cedule){
-        ROb rob = new ROb();
-        try{
-            Person person = find(cedule);// Find Person with service of SRA   
-            if(person==null){
-                rob.setErr_message("Cant Find this Object");
-                rob.setSuccess(false);
-            } else {
-                ArrayList<Pin> listPin =  (ArrayList<Pin>) person.getPinCollection();
-                Payment lastPaid = listPin.get(listPin.size()-1).getPayment();
-                rob.setData(lastPaid);
-                rob.setSuccess(true);
-            }
-            return rob;
-        }catch(Exception e){
-            rob.setSuccess(false);
-            rob.setErr_message("Failed transaction");
             return rob;
         }
     }

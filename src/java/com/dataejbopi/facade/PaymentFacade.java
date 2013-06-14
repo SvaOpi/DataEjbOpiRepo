@@ -92,8 +92,9 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     public ROb updatePaymentExtemporaneous(Long idPayment){
         ROb rob = new ROb();
         try{     
+            System.out.println("a request is here");
             Payment payment =  (Payment) findById(idPayment).getData();
-            Date currentDate = localDateTimer.localDate;
+            Date currentDate = localDateTimer.getLocalDate();
             Date newLimitDate;
             Double newHealtServiceValue;
             if(payment != null && payment.getPaydate()==null){
@@ -108,8 +109,10 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                     payment.setOpiServiceValue(newHealtServiceValue*0.01);
                     payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
                     edit(payment);
+                    System.out.println("pase por aca");
                     Pin pin =  payment.getPin();
                     pinFacade.edit(pin);
+                    System.out.println("cerca...");
                     rob.setData(payment);
                     rob.setSuccess(true);
                 }

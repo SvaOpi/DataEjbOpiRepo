@@ -10,7 +10,6 @@ import com.dataejbopi.entity.Pin;
 import com.dataejbopi.facade.PaymentFacade;
 import com.dataejbopi.facade.PersonFacade;
 import com.dataejbopi.facade.PinFacade;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
@@ -37,31 +36,44 @@ public class LocalDateTimer {
     public void myTimer() {
         int lastMonth = localDate.getMonth();
         localDate.setDate(localDate.getDate()+1);
+        //Change of month
         if(lastMonth!=localDate.getMonth()){
-            System.out.println("--------- New Month ---------");
-            System.out.println(localDate);
-            System.out.println("-----------------------------");
+            System.out.println(">>-------------------------- New Month --------------------------<< ");
+            System.out.println("             "+localDate);
+            System.out.println(">>---------------------------------------------------------------<<");
             
         }
-        if(localDate.getDate()==1){
+        //Create Pin on last Day
+        if(localDate.getDate()==28){
             System.out.println("----- Create Automatically Pin ----");
-            ArrayList<Pin> listPin = new ArrayList();
             for(Person person:personFacade.findAll()){
-                listPin = (ArrayList<Pin>) person.getPinCollection();
-                if(listPin.get(listPin.size()-1).getCreationdate().getMonth()<localDate.getMonth()){
+                Pin pin = (Pin) pinFacade.getLastPinCreated(person.getCedule()).getData();
+                if(pin==null){
                     pinFacade.registerPin(person.getCedule());
-                }
+                }else if(pin.getCreationdate().getYear()<localDate.getYear() &&  pin.getCreationdate().getMonth()<12){  
+                    pinFacade.registerPin(person.getCedule());
+                }else if(pin.getCreationdate().getYear()==localDate.getYear() && pin.getCreationdate().getMonth()<localDate.getMonth()){  
+                    pinFacade.registerPin(person.getCedule());
+                }               
             }
             System.out.println("---------Create Finished------------");
         }
+        // Update value of Payment, when expired limit date
         if(localDate.getDate()==2){
             System.out.println("----- Update Extemporaneous Payment ----");
             for(Payment payment:paymentFacade.findAll()){
-                paymentFacade.updatePaymentExtemporaneous(payment.getId());
+                if(payment.getPaydate()==null && payment.getPin().getLimitdate().before(getLocalDate())){
+                    System.out.println(paymentFacade.updatePaymentExtemporaneous(payment.getId()).getErr_message());
+                }
             }
             System.out.println("---------Update Finished------------");
         }
     }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    public Date getLocalDate() {
+        return localDate;
+    }
+    
 }

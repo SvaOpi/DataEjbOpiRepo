@@ -45,11 +45,14 @@ public class PinFacade extends AbstractFacade<Pin> {
         try{
             Person person = (Person) personFacade.findByCedule(personCedule).getData();  
             Double salary = person.getSalary();
-            Date currentDate =localDateTimer.localDate;
+            Date currentDate = new Date();
+            currentDate.setYear(localDateTimer.getLocalDate().getYear());
+            currentDate.setMonth(localDateTimer.getLocalDate().getMonth());
+            currentDate.setDate(localDateTimer.getLocalDate().getDate());
             Date limitDate = new Date(); 
             limitDate.setDate(1);
-            limitDate.setMonth(localDateTimer.localDate.getMonth()+1);
-            limitDate.setYear(localDateTimer.localDate.getYear());
+            limitDate.setMonth(localDateTimer.getLocalDate().getMonth()+1);
+            limitDate.setYear(localDateTimer.getLocalDate().getYear());
             if(person != null){
                 List<Pin> listPin = findAll();
                 for(Pin p:listPin){
@@ -96,6 +99,32 @@ public class PinFacade extends AbstractFacade<Pin> {
                 rob.setSuccess(false);
             } else {
                 rob.setData(pin);
+                rob.setSuccess(true);
+            }
+            return rob;
+        }catch(Exception e){
+            rob.setSuccess(false);
+            rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
+    
+    public ROb getLastPinCreated (Long cedule){
+        ROb rob = new ROb();
+        try{
+            Person person = (Person) personFacade.findByCedule(cedule).getData();
+            if(person==null){
+                rob.setErr_message("Cant Find this Object");
+                rob.setSuccess(false);
+            } else {
+                List<Pin> listPin =  (List<Pin>) person.getPinCollection();
+                if(listPin==null || listPin.isEmpty()){
+                    rob.setErr_message("Cant Find this Object");
+                    rob.setSuccess(false);
+                    return rob;
+                }
+                Pin lastPin = listPin.get(listPin.size()-1);
+                rob.setData(lastPin);
                 rob.setSuccess(true);
             }
             return rob;
