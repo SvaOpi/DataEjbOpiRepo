@@ -13,6 +13,12 @@ public class TransactionVo {
     private Long destinyAccount;
     private double value;
 
+    public TransactionVo(Long originAccount, Long destinyAccount, double value) {
+        this.originAccount = originAccount;
+        this.destinyAccount = destinyAccount;
+        this.value = value;
+    }
+
     public Long getOriginAccount() {
         return originAccount;
     }

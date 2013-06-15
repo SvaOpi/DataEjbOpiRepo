@@ -9,6 +9,8 @@ import com.dataejbopi.entity.Person;
 import com.dataejbopi.entity.Pin;
 import com.dataejbopi.timer.LocalDateTimer;
 import com.dataejbopi.vo.ROb;
+import com.dataejbopi.vo.TransactionVo;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -167,13 +169,39 @@ public class PinFacade extends AbstractFacade<Pin> {
                 remove(pin);
                 rob.setSuccess(true);
                 rob.setData(null);
-            }            
+            }
             return rob;
         }catch(Exception e){
             rob.setSuccess(false);
             rob.setErr_message("Failed transaction");
             return rob;
         }
-    }   
+    }
+    
+    public ROb<ArrayList<TransactionVo>> getTransactionData(Long id){
+        ROb<ArrayList<TransactionVo>> rob = new ROb<ArrayList<TransactionVo>>();
+        try {
+            ROb response = findById(id);
+            Long opiAccount = null;
+            if(response.isSuccess()==true){
+                Pin pin = (Pin) response.getData();
+                ArrayList<TransactionVo> listTransaction = new ArrayList();
+                TransactionVo transactionEps = new TransactionVo(null, pin.getPerson().getEps().getAccountnumber(), pin.getPayment().getHealtServiceValue());
+                TransactionVo transactionOpi = new TransactionVo(null, opiAccount, pin.getPayment().getOpiServiceValue());
+                listTransaction.add(transactionEps);
+                listTransaction.add(transactionOpi);
+                rob.setData(listTransaction);
+                rob.setSuccess(true);
+            }else{
+                rob.setErr_message("Cant Find this Object");
+                rob.setSuccess(false);
+            }
+            return rob;
+        } catch (Exception e) {
+            rob.setSuccess(false);
+            rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
     
 }
