@@ -39,13 +39,13 @@ public class LocalDateTimer {
         //Change of month
         if(lastMonth!=localDate.getMonth()){
             System.out.println(">>-------------------------- New Month --------------------------<< ");
-            System.out.println("             "+localDate);
+            System.out.println(localDate);
             System.out.println(">>---------------------------------------------------------------<<");
             
         }
         //Create Pin on last Day
         if(localDate.getDate()==28){
-            System.out.println("----- Create Automatically Pin ----");
+            System.out.println("X---------------------- Create Automatically Pin ----------------------X");
             for(Person person:personFacade.findAll()){
                 Pin pin = (Pin) pinFacade.getLastPinCreated(person.getCedule()).getData();
                 if(pin==null){
@@ -56,11 +56,11 @@ public class LocalDateTimer {
                     pinFacade.registerPin(person.getCedule());
                 }               
             }
-            System.out.println("---------Create Finished------------");
+            System.out.println("X------------------------ Create Finished ------------------------X");
         }
         // Update value of Payment, when expired limit date
         if(localDate.getDate()==2){
-            System.out.println("----- Update Extemporaneous Payment ----");
+            System.out.println("<<--------------- Update Extemporaneous Payment ----------------->>");
             for(Payment payment:paymentFacade.findAll()){
                 Pin pin = new Pin();
                 for(Pin p:pinFacade.findAll()){
@@ -70,10 +70,10 @@ public class LocalDateTimer {
                     }
                 }
                 if(payment.getPaydate()==null && pin.getLimitdate().before(getLocalDate())){
-                    System.out.println(paymentFacade.updatePaymentExtemporaneous(payment.getId()).getErr_message());
+                    paymentFacade.updatePaymentExtemporaneous(payment.getId());
                 }
             }
-            System.out.println("---------Update Finished------------");
+            System.out.println("<<----------------------- Update Finished ------------------------->>");
         }
     }
 

@@ -55,6 +55,11 @@ public class PinWs {
         return ejbRef.getLastPinCreated(cedule);
     }
 
+    @WebMethod(operationName = "updatePin")
+    public ROb<Pin> updatePin(@WebParam(name = "pin") Pin pin) {
+        return ejbRef.updatePin(pin);
+    }
+
     @WebMethod(operationName = "removeById")
     public ROb<Pin> removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);

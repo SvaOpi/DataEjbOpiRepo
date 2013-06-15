@@ -116,6 +116,7 @@ public class PersonFacade extends AbstractFacade<Person> {
                 remove(p);
                 rob.setSuccess(true);
                 rob.setData(null);
+                return rob;
             }         
             rob.setSuccess(false);
             rob.setErr_message("Cant find this object");

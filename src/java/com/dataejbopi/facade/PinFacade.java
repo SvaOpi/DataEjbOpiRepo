@@ -53,6 +53,9 @@ public class PinFacade extends AbstractFacade<Pin> {
             limitDate.setDate(1);
             limitDate.setMonth(localDateTimer.getLocalDate().getMonth()+1);
             limitDate.setYear(localDateTimer.getLocalDate().getYear());
+            if(limitDate.getMonth()==0){
+                limitDate.setYear(localDateTimer.getLocalDate().getYear()+1);
+            }
             if(person != null){
                 List<Pin> listPin = findAll();
                 for(Pin p:listPin){
@@ -125,6 +128,26 @@ public class PinFacade extends AbstractFacade<Pin> {
                 }
                 Pin lastPin = listPin.get(listPin.size()-1);
                 rob.setData(lastPin);
+                rob.setSuccess(true);
+            }
+            return rob;
+        }catch(Exception e){
+            rob.setSuccess(false);
+            rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
+    
+    public ROb<Pin> updatePin(Pin pin){
+        ROb<Pin> rob = new ROb<Pin>();
+        try{
+            Pin p = find(pin.getId());
+            if(p==null){
+                rob.setErr_message("Cant Find this Object");
+                rob.setSuccess(false);
+            } else {
+                edit(pin);
+                rob.setData(pin);
                 rob.setSuccess(true);
             }
             return rob;

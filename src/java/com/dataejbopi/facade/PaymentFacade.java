@@ -80,6 +80,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                 pin.setPinstate("Paid");
                 pin.setPayment(payment);
                 edit(payment);
+                pinFacade.updatePin(pin);
                 rob.setData(payment);
                 rob.setSuccess(true);
             }else{
@@ -88,6 +89,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             }          
             return rob;
         }catch(Exception e){
+            e.printStackTrace();
             rob.setSuccess(false);
             rob.setErr_message("Failed Transaction!");
             return rob;
@@ -97,10 +99,9 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     public ROb<Payment> updatePaymentExtemporaneous(Long idPayment){
         ROb<Payment> rob = new ROb<Payment>();
         try{     
-            System.out.println("a request is here");
             Payment payment =  (Payment) findById(idPayment).getData();
             Date currentDate = localDateTimer.getLocalDate();
-            Date newLimitDate;
+            Date limitDate = new Date(); 
             Double newHealtServiceValue;
             if(payment != null && payment.getPaydate()==null){
                 Pin pin = new Pin();
@@ -110,20 +111,23 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                         break;
                     }
                 }
-                while(currentDate.after(pin.getLimitdate())){
-                    System.out.println("Update payment:"+idPayment + " for date:" + pin.getLimitdate());
-                    newLimitDate=pin.getLimitdate();
-                    newLimitDate.setMonth(newLimitDate.getMonth()+1);
+                while(pin.getId()!=null && currentDate.after(pin.getLimitdate()) && currentDate.getYear()==pin.getLimitdate().getYear()){
+                    limitDate.setDate(1);
+                    limitDate.setMonth(currentDate.getMonth()+1);
+                    limitDate.setYear(currentDate.getYear());
+                    if(limitDate.getMonth()==0){
+                        limitDate.setYear(localDateTimer.getLocalDate().getYear()+1);
+                    }
                     newHealtServiceValue = payment.getHealtServiceValue()*1.1;
                     
-                    pin.setLimitdate(newLimitDate);
                     payment.setHealtServiceValue(newHealtServiceValue);
                     payment.setOpiServiceValue(newHealtServiceValue*0.01);
                     payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
                     edit(payment);
-                    System.out.println("pase por aca");
-                    //pinFacade.edit(pin);
-                    System.out.println("cerca...");
+                    pin.setLimitdate(limitDate);
+                    pinFacade.updatePin(pin);
+                    
+                    System.out.println("Update payment:"+idPayment + " for date:" + pin.getLimitdate());
                     rob.setData(payment);
                     rob.setSuccess(true);
                 }

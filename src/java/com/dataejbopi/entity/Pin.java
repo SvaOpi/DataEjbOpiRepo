@@ -7,6 +7,7 @@ package com.dataejbopi.entity;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,9 +54,9 @@ public class Pin implements Serializable {
     @Column(name = "PINSTATE")
     private String pinstate;
     @JoinColumn(name = "PERSONS_CEDULE", referencedColumnName = "CEDULE")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Person person;
-    @OneToOne(orphanRemoval = true)
+    @OneToOne(orphanRemoval = true,cascade = CascadeType.ALL)
     private Payment payment;
 
     public Pin() {

@@ -35,6 +35,7 @@ public class EpsFacade extends AbstractFacade<Eps> {
             Eps eps = new Eps();
             eps.setName(name);
             eps.setAccountnumber(accountnumber);
+            eps.setDtype("NIT");
             create(eps);
             List<Eps> listEps = findAll();
             eps = listEps.get(listEps.size()-1);
