@@ -41,22 +41,22 @@ public class PersonOpiWs {
     }
 
     @WebMethod(operationName = "registerPerson")
-    public ROb registerPerson(@WebParam(name = "cedule") Long cedule, @WebParam(name = "salary") Double salary, @WebParam(name = "epsId") Long epsId) {
+    public ROb<Person> registerPerson(@WebParam(name = "cedule") Long cedule, @WebParam(name = "salary") Double salary, @WebParam(name = "epsId") Long epsId) {
         return ejbRef.registerPerson(cedule, salary, epsId);
     }
 
     @WebMethod(operationName = "validateLogin")
-    public ROb validateLogin(@WebParam(name = "userName") String userName, @WebParam(name = "userPassword") String userPassword) {
+    public ROb<Person> validateLogin(@WebParam(name = "userName") String userName, @WebParam(name = "userPassword") String userPassword) {
         return ejbRef.validateLogin(userName, userPassword);
     }
 
     @WebMethod(operationName = "findByCedule")
-    public ROb findByCedule(@WebParam(name = "cedule") Long cedule) {
+    public ROb<Person> findByCedule(@WebParam(name = "cedule") Long cedule) {
         return ejbRef.findByCedule(cedule);
     }
 
     @WebMethod(operationName = "removeByCedule")
-    public ROb removeByCedule(@WebParam(name = "cedule") Long cedule) {
+    public ROb<Person> removeByCedule(@WebParam(name = "cedule") Long cedule) {
         return ejbRef.removeByCedule(cedule);
     }
     

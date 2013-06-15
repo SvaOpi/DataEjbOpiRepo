@@ -41,22 +41,22 @@ public class PinWs {
     }
 
     @WebMethod(operationName = "registerPin")
-    public ROb registerPin(@WebParam(name = "personCedule") Long personCedule) {
+    public ROb<Pin> registerPin(@WebParam(name = "personCedule") Long personCedule) {
         return ejbRef.registerPin(personCedule);
     }
 
     @WebMethod(operationName = "findById")
-    public ROb findById(@WebParam(name = "id") Long id) {
+    public ROb<Pin> findById(@WebParam(name = "id") Long id) {
         return ejbRef.findById(id);
     }
 
     @WebMethod(operationName = "getLastPinCreated")
-    public ROb getLastPinCreated(@WebParam(name = "cedule") Long cedule) {
+    public ROb<Pin> getLastPinCreated(@WebParam(name = "cedule") Long cedule) {
         return ejbRef.getLastPinCreated(cedule);
     }
 
     @WebMethod(operationName = "removeById")
-    public ROb removeById(@WebParam(name = "id") Long id) {
+    public ROb<Pin> removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);
     }
     

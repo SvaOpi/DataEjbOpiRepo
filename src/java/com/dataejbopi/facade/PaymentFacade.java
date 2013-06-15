@@ -37,8 +37,8 @@ public class PaymentFacade extends AbstractFacade<Payment> {
         super(Payment.class);
     }
     
-    public ROb createPaymentForPin(Long idPin, Double salary){
-        ROb rob = new ROb();
+    public ROb<Payment> createPaymentForPin(Long idPin, Double salary){
+        ROb<Payment> rob = new ROb<Payment>();
         try{     
             Pin pin = (Pin) pinFacade.findById(idPin).getData();
             if(pin != null){
@@ -46,7 +46,6 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                 payment.setHealtServiceValue(salary*0.085);
                 payment.setOpiServiceValue(payment.getHealtServiceValue()*0.01);
                 payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
-                payment.setPin(pin);
                 create(payment);
                 List<Payment> listPayment = findAll();
                 payment = listPayment.get(listPayment.size()-1);
@@ -64,13 +63,19 @@ public class PaymentFacade extends AbstractFacade<Payment> {
         }
     }
     
-    public ROb registerPaymentComplete(Long idPayment, Long idTransaction){
-        ROb rob = new ROb();
+    public ROb<Payment> registerPaymentComplete(Long idPayment, Long idTransaction){
+        ROb<Payment> rob = new ROb<Payment>();
         try{     
-            Payment payment =  (Payment) findById(idPayment).getData();
+            Payment payment = findById(idPayment).getData();
             // Find and validate with a bank transaciont
             if(payment != null){
-                Pin pin = payment.getPin();
+                Pin pin = new Pin();
+                for(Pin p:pinFacade.findAll()){
+                    if(p.getPayment().getId()==payment.getId()){
+                        pin=p;
+                        break;
+                    }
+                }
                 payment.setPaydate(localDateTimer.localDate);
                 pin.setPinstate("Paid");
                 pin.setPayment(payment);
@@ -89,8 +94,8 @@ public class PaymentFacade extends AbstractFacade<Payment> {
         }
     }
     
-    public ROb updatePaymentExtemporaneous(Long idPayment){
-        ROb rob = new ROb();
+    public ROb<Payment> updatePaymentExtemporaneous(Long idPayment){
+        ROb<Payment> rob = new ROb<Payment>();
         try{     
             System.out.println("a request is here");
             Payment payment =  (Payment) findById(idPayment).getData();
@@ -98,20 +103,26 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             Date newLimitDate;
             Double newHealtServiceValue;
             if(payment != null && payment.getPaydate()==null){
-                while(currentDate.after(payment.getPin().getLimitdate())){
-                    System.out.println("Update payment:"+idPayment + " for date:" + payment.getPin().getLimitdate());
-                    newLimitDate=payment.getPin().getLimitdate();
+                Pin pin = new Pin();
+                for(Pin p:pinFacade.findAll()){
+                    if(p.getPayment().getId()==payment.getId()){
+                        pin=p;
+                        break;
+                    }
+                }
+                while(currentDate.after(pin.getLimitdate())){
+                    System.out.println("Update payment:"+idPayment + " for date:" + pin.getLimitdate());
+                    newLimitDate=pin.getLimitdate();
                     newLimitDate.setMonth(newLimitDate.getMonth()+1);
                     newHealtServiceValue = payment.getHealtServiceValue()*1.1;
                     
-                    payment.getPin().setLimitdate(newLimitDate);
+                    pin.setLimitdate(newLimitDate);
                     payment.setHealtServiceValue(newHealtServiceValue);
                     payment.setOpiServiceValue(newHealtServiceValue*0.01);
                     payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
                     edit(payment);
                     System.out.println("pase por aca");
-                    Pin pin =  payment.getPin();
-                    pinFacade.edit(pin);
+                    //pinFacade.edit(pin);
                     System.out.println("cerca...");
                     rob.setData(payment);
                     rob.setSuccess(true);
@@ -122,14 +133,15 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             }          
             return rob;
         }catch(Exception e){
+            e.printStackTrace();
             rob.setSuccess(false);
             rob.setErr_message("Failed Transaction!");
             return rob;
         }
     }
     
-    public ROb findById(Long id){
-        ROb rob = new ROb();
+    public ROb<Payment> findById(Long id){
+        ROb<Payment> rob = new ROb<Payment>();
         try{
             Payment payment = find(id);
             if(payment==null){
@@ -147,12 +159,12 @@ public class PaymentFacade extends AbstractFacade<Payment> {
         }
     }
     
-    public ROb removeById(Long id){
-        ROb rob = new ROb();
+    public ROb<Payment> removeById(Long id){
+        ROb<Payment> rob = new ROb<Payment>();
         try{
             rob = findById(id);
             if(rob.isSuccess()==true){
-                Payment payment = (Payment) rob.getData();
+                Payment payment = rob.getData();
                 remove(payment);
                 rob.setSuccess(true);
                 rob.setData(null);

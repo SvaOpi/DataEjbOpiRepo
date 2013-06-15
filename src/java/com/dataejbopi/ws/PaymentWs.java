@@ -41,27 +41,27 @@ public class PaymentWs {
     }
 
     @WebMethod(operationName = "createPaymentForPin")
-    public ROb createPaymentForPin(@WebParam(name = "idPin") Long idPin, @WebParam(name = "salary") Double salary) {
+    public ROb<Payment> createPaymentForPin(@WebParam(name = "idPin") Long idPin, @WebParam(name = "salary") Double salary) {
         return ejbRef.createPaymentForPin(idPin, salary);
     }
 
     @WebMethod(operationName = "registerPaymentComplete")
-    public ROb registerPaymentComplete(@WebParam(name = "idPayment") Long idPayment, @WebParam(name = "idTransaction") Long idTransaction) {
+    public ROb<Payment> registerPaymentComplete(@WebParam(name = "idPayment") Long idPayment, @WebParam(name = "idTransaction") Long idTransaction) {
         return ejbRef.registerPaymentComplete(idPayment, idTransaction);
     }
 
     @WebMethod(operationName = "updatePaymentExtemporaneous")
-    public ROb updatePaymentExtemporaneous(@WebParam(name = "idPayment") Long idPayment) {
+    public ROb<Payment> updatePaymentExtemporaneous(@WebParam(name = "idPayment") Long idPayment) {
         return ejbRef.updatePaymentExtemporaneous(idPayment);
     }
 
     @WebMethod(operationName = "findById")
-    public ROb findById(@WebParam(name = "id") Long id) {
+    public ROb<Payment> findById(@WebParam(name = "id") Long id) {
         return ejbRef.findById(id);
     }
 
     @WebMethod(operationName = "removeById")
-    public ROb removeById(@WebParam(name = "id") Long id) {
+    public ROb<Payment> removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);
     }
     

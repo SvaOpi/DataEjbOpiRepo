@@ -33,11 +33,11 @@ public class PersonFacade extends AbstractFacade<Person> {
         super(Person.class);
     }
     
-    public ROb registerPerson(Long cedule,Double salary, Long epsId){
-        ROb rob = new ROb();
+    public ROb<Person> registerPerson(Long cedule,Double salary, Long epsId){
+        ROb<Person> rob = new ROb<Person>();
         try{
-            Eps eps = (Eps) epsFacade.findById(epsId).getData();
-            Person person = (Person) findByCedule(cedule).getData(); //Find person on SRA        
+            Eps eps = epsFacade.findById(epsId).getData();
+            Person person = findByCedule(cedule).getData(); //Find person on SRA        
             //if(eps!=null && person!=null){
             if(eps!=null ){
                 person = new Person();
@@ -63,8 +63,8 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb validateLogin(String userName, String userPassword){
-        ROb rob = new ROb();
+    public ROb<Person> validateLogin(String userName, String userPassword){
+        ROb<Person> rob = new ROb<Person>();
         try{
             Person person = find(1);// Find Person in OPI  
             //CompanyPerson companyPerson = (CompanyPerson)validateRelation(userNane, opiID, userPassword).getData() //// Validate relation in SRA ( 
@@ -86,8 +86,8 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb findByCedule(Long cedule){
-        ROb rob = new ROb();
+    public ROb<Person> findByCedule(Long cedule){
+        ROb<Person> rob = new ROb<Person>();
         try{
             Person person = find(cedule);// find person  in OPI 
             //Person person2 = (person)findByCedule(cedule).getData() // find person  in SRA 
@@ -107,17 +107,18 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb removeByCedule(Long cedule){
-        ROb rob = new ROb();
+    public ROb<Person> removeByCedule(Long cedule){
+        ROb<Person> rob = new ROb<Person>();
         try{
-            rob = findByCedule(cedule);
-            if(rob.isSuccess()==true){
-                Person eps = (Person) rob.getData();
+           Person p = find(cedule);
+            if(p!=null){
                 //ROb rob2 = CompanyFacade.removeRelation(person.getCedule(), opiID, opiPassword);
-                remove(eps);
+                remove(p);
                 rob.setSuccess(true);
                 rob.setData(null);
-            }            
+            }         
+            rob.setSuccess(false);
+            rob.setErr_message("Cant find this object");
             return rob;
         }catch(Exception e){
             rob.setSuccess(false);

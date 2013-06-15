@@ -8,11 +8,11 @@ package com.dataejbopi.vo;
  *
  * @author Usuario1
  */
-public class ROb {
+public class ROb<T> {
 
     boolean success;
     String err_message;
-    Object data;
+    T data;
 
     public boolean isSuccess() {
         return success;
@@ -30,12 +30,12 @@ public class ROb {
         this.err_message = err_message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
-    }   
+    }
     
 }

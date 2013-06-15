@@ -32,7 +32,7 @@ public class LocalDateTimer {
     
     public Date localDate=new Date();
     
-    @Schedule(minute = "*", second = "*/10", dayOfMonth = "*", month = "*", year = "*", hour = "*", dayOfWeek = "*")
+    @Schedule(minute = "*", second = "*/1", dayOfMonth = "*", month = "*", year = "*", hour = "*", dayOfWeek = "*")
     public void myTimer() {
         int lastMonth = localDate.getMonth();
         localDate.setDate(localDate.getDate()+1);
@@ -62,7 +62,14 @@ public class LocalDateTimer {
         if(localDate.getDate()==2){
             System.out.println("----- Update Extemporaneous Payment ----");
             for(Payment payment:paymentFacade.findAll()){
-                if(payment.getPaydate()==null && payment.getPin().getLimitdate().before(getLocalDate())){
+                Pin pin = new Pin();
+                for(Pin p:pinFacade.findAll()){
+                    if(p.getPayment().getId()==payment.getId()){
+                        pin=p;
+                        break;
+                    }
+                }
+                if(payment.getPaydate()==null && pin.getLimitdate().before(getLocalDate())){
                     System.out.println(paymentFacade.updatePaymentExtemporaneous(payment.getId()).getErr_message());
                 }
             }

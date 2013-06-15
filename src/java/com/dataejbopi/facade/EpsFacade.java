@@ -29,8 +29,8 @@ public class EpsFacade extends AbstractFacade<Eps> {
         super(Eps.class);
     }
     
-    public ROb registerEps(String name, Long accountnumber){
-        ROb rob = new ROb();
+    public ROb<Eps> registerEps(String name, Long accountnumber){
+        ROb<Eps> rob = new ROb<Eps>();
         try{
             Eps eps = new Eps();
             eps.setName(name);
@@ -48,8 +48,8 @@ public class EpsFacade extends AbstractFacade<Eps> {
         }
     }
     
-    public ROb findById(Long id){
-        ROb rob = new ROb();
+    public ROb<Eps> findById(Long id){
+        ROb<Eps> rob = new ROb<Eps>();
         try{
             Eps eps = find(id);
             if(eps==null){
@@ -67,12 +67,12 @@ public class EpsFacade extends AbstractFacade<Eps> {
         }
     }
     
-    public ROb removeById(Long id){
-        ROb rob = new ROb();
+    public ROb<Eps> removeById(Long id){
+        ROb<Eps> rob = new ROb<Eps>();
         try{
             rob = findById(id);
             if(rob.isSuccess()==true){
-                Eps eps = (Eps) rob.getData();
+                Eps eps = rob.getData();
                 remove(eps);
                 rob.setSuccess(true);
                 rob.setData(null);

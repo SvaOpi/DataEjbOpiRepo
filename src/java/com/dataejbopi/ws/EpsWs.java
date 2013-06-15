@@ -41,17 +41,17 @@ public class EpsWs {
     }
 
     @WebMethod(operationName = "registerEps")
-    public ROb registerEps(@WebParam(name = "name") String name, @WebParam(name = "accountnumber") Long accountnumber) {
+    public ROb<Eps> registerEps(@WebParam(name = "name") String name, @WebParam(name = "accountnumber") Long accountnumber) {
         return ejbRef.registerEps(name, accountnumber);
     }
 
     @WebMethod(operationName = "findById")
-    public ROb findById(@WebParam(name = "id") Long id) {
+    public ROb<Eps> findById(@WebParam(name = "id") Long id) {
         return ejbRef.findById(id);
     }
 
     @WebMethod(operationName = "removeById")
-    public ROb removeById(@WebParam(name = "id") Long id) {
+    public ROb<Eps> removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);
     }
     

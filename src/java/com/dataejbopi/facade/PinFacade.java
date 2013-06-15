@@ -40,10 +40,10 @@ public class PinFacade extends AbstractFacade<Pin> {
         super(Pin.class);
     }
     
-    public ROb registerPin(Long personCedule){
-        ROb rob = new ROb();
+    public ROb<Pin> registerPin(Long personCedule){
+        ROb<Pin> rob = new ROb<Pin>();
         try{
-            Person person = (Person) personFacade.findByCedule(personCedule).getData();  
+            Person person = personFacade.findByCedule(personCedule).getData();  
             Double salary = person.getSalary();
             Date currentDate = new Date();
             currentDate.setYear(localDateTimer.getLocalDate().getYear());
@@ -70,7 +70,7 @@ public class PinFacade extends AbstractFacade<Pin> {
                 
                 listPin = findAll();
                 pin = listPin.get(listPin.size()-1);    
-                Payment payment = (Payment) paymentFacade.createPaymentForPin(pin.getId(), salary).getData();
+                Payment payment = paymentFacade.createPaymentForPin(pin.getId(), salary).getData();
                 
                 pin.setPerson(person);   
                 pin.setPayment(payment);
@@ -90,8 +90,8 @@ public class PinFacade extends AbstractFacade<Pin> {
         }
     }
     
-    public ROb findById(Long id){
-        ROb rob = new ROb();
+    public ROb<Pin> findById(Long id){
+        ROb<Pin> rob = new ROb<Pin>();
         try{
             Pin pin = find(id);
             if(pin==null){
@@ -109,8 +109,8 @@ public class PinFacade extends AbstractFacade<Pin> {
         }
     }
     
-    public ROb getLastPinCreated (Long cedule){
-        ROb rob = new ROb();
+    public ROb<Pin> getLastPinCreated (Long cedule){
+        ROb<Pin> rob = new ROb<Pin>();
         try{
             Person person = (Person) personFacade.findByCedule(cedule).getData();
             if(person==null){
@@ -135,8 +135,8 @@ public class PinFacade extends AbstractFacade<Pin> {
         }
     }
     
-    public ROb removeById(Long id){
-        ROb rob = new ROb();
+    public ROb<Pin> removeById(Long id){
+        ROb<Pin> rob = new ROb<Pin>();
         try{
             rob = findById(id);
             if(rob.isSuccess()==true){

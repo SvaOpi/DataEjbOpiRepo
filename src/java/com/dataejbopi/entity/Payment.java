@@ -54,8 +54,6 @@ public class Payment implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column
     private Double healtServiceValue;
-    @OneToOne(cascade = CascadeType.MERGE)
-    private Pin pin;
 
     public Payment() {
     }
@@ -103,15 +101,6 @@ public class Payment implements Serializable {
     public void setHealtServiceValue(Double healtServiceValue) {
         this.healtServiceValue = healtServiceValue;
     }
-   
-    public Pin getPin() {
-        return pin;
-    }
-
-    public void setPin(Pin pin) {
-        this.pin = pin;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
