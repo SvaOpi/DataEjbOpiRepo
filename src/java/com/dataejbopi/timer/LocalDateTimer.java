@@ -32,7 +32,7 @@ public class LocalDateTimer {
     
     public Date localDate=new Date();
     
-    @Schedule(minute = "*", second = "*/1", dayOfMonth = "*", month = "*", year = "*", hour = "*", dayOfWeek = "*")
+    @Schedule(minute = "*", second = "*/10", dayOfMonth = "*", month = "*", year = "*", hour = "*", dayOfWeek = "*")
     public void myTimer() {
         int lastMonth = localDate.getMonth();
         localDate.setDate(localDate.getDate()+1);

@@ -7,6 +7,8 @@ package com.dataejbopi.ws;
 import com.dataejbopi.entity.Pin;
 import com.dataejbopi.facade.PinFacade;
 import com.dataejbopi.vo.ROb;
+import com.dataejbopi.vo.TransactionVo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -63,6 +65,11 @@ public class PinWs {
     @WebMethod(operationName = "removeById")
     public ROb<Pin> removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);
+    }
+
+    @WebMethod(operationName = "getTransactionData")
+    public ROb<ArrayList<TransactionVo>> getTransactionData(@WebParam(name = "id") Long id) {
+        return ejbRef.getTransactionData(id);
     }
     
 }

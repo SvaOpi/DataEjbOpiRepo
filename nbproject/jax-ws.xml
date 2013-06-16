@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="PersonOpiWs">
-      <implementation-class>com.dataejbopi.ws.PersonOpiWs</implementation-class>
-    </service>
     <service name="EpsWs">
       <implementation-class>com.dataejbopi.ws.EpsWs</implementation-class>
+    </service>
+    <service name="PersonOpiWs">
+      <implementation-class>com.dataejbopi.ws.PersonOpiWs</implementation-class>
     </service>
     <service name="PinWs">
       <implementation-class>com.dataejbopi.ws.PinWs</implementation-class>

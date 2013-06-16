@@ -5,6 +5,7 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Payment;
+import com.dataejbopi.entity.Person;
 import com.dataejbopi.entity.Pin;
 import com.dataejbopi.timer.LocalDateTimer;
 import com.dataejbopi.vo.ROb;
@@ -27,6 +28,8 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     private PinFacade pinFacade = new PinFacade();
     @EJB
     private LocalDateTimer localDateTimer;
+    @EJB
+    private PersonFacade personFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -43,7 +46,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             Pin pin = (Pin) pinFacade.findById(idPin).getData();
             if(pin != null){
                 Payment payment = new Payment();
-                payment.setHealtServiceValue(salary*0.085);
+                payment.setHealtServiceValue(salary*0.12);
                 payment.setOpiServiceValue(payment.getHealtServiceValue()*0.01);
                 payment.setTotalvalue(payment.getHealtServiceValue()+payment.getOpiServiceValue());
                 create(payment);
@@ -159,6 +162,35 @@ public class PaymentFacade extends AbstractFacade<Payment> {
         }catch(Exception e){
             rob.setSuccess(false);
             rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
+    
+    public ROb<Payment> onlinePayment(Long cedule, Long personAccount, String passwordAccount){
+        ROb<Payment> rob = new ROb<Payment>();
+        try {
+            Person person = personFacade.findByCedule(cedule).getData();
+            if(person!=null){
+                //Find personAccount on the bank, validate password(?)
+                ROb<Pin> pinRegisterRob = pinFacade.registerPin(personAccount);
+                if(pinRegisterRob.isSuccess()){
+                    Payment payment = pinRegisterRob.getData().getPayment();
+                    Long transaction= null;
+                    // Transaction = number of transaction un the bank system
+                    // -->transaction(personAccount, epsAccount, payment.getHealtServiceValue());
+                    // -->transaction(personAccount, opiAccount, payment.getOpiServiceValue());
+                    // if all it's fine
+                    registerPaymentComplete(payment.getId(), transaction);
+                }else{
+                    rob.setErr_message("Cant register the Pin");
+                    rob.setSuccess(false);
+                }
+            }else{
+                rob.setErr_message("Cant find that Object");
+                rob.setSuccess(false);
+            }
+            return rob;
+        } catch (Exception e) {
             return rob;
         }
     }

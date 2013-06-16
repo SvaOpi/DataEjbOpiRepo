@@ -60,6 +60,11 @@ public class PaymentWs {
         return ejbRef.findById(id);
     }
 
+    @WebMethod(operationName = "onlinePayment")
+    public ROb<Payment> onlinePayment(@WebParam(name = "cedule") Long cedule, @WebParam(name = "personAccount") Long personAccount, @WebParam(name = "passwordAccount") String passwordAccount) {
+        return ejbRef.onlinePayment(cedule, personAccount, passwordAccount);
+    }
+
     @WebMethod(operationName = "removeById")
     public ROb<Payment> removeById(@WebParam(name = "id") Long id) {
         return ejbRef.removeById(id);
