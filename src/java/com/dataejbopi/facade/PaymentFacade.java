@@ -92,7 +92,6 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             }          
             return rob;
         }catch(Exception e){
-            e.printStackTrace();
             rob.setSuccess(false);
             rob.setErr_message("Failed Transaction!");
             return rob;
@@ -140,7 +139,6 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             }          
             return rob;
         }catch(Exception e){
-            e.printStackTrace();
             rob.setSuccess(false);
             rob.setErr_message("Failed Transaction!");
             return rob;

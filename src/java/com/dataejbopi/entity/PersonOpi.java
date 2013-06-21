@@ -28,9 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PERSON")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
-    @NamedQuery(name = "Person.findByCedule", query = "SELECT p FROM Person p WHERE p.cedule = :cedule"),
-    @NamedQuery(name = "Person.findByDtype", query = "SELECT p FROM Person p WHERE p.dtype = :dtype")})
+    @NamedQuery(name = "Person.findAll", query = "SELECT p FROM PersonOpi p"),
+    @NamedQuery(name = "Person.findByCedule", query = "SELECT p FROM PersonOpi p WHERE p.cedule = :cedule"),
+    @NamedQuery(name = "Person.findByDtype", query = "SELECT p FROM PersonOpi p WHERE p.dtype = :dtype")})
 public class PersonOpi implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

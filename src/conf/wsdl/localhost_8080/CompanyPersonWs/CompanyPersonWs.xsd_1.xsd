@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://ws.dataejbsra.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.dataejbsra.com/">
+
+<xs:element name="count" type="tns:count"/>
+
+<xs:element name="countResponse" type="tns:countResponse"/>
+
+<xs:element name="findAll" type="tns:findAll"/>
+
+<xs:element name="findAllResponse" type="tns:findAllResponse"/>
+
+<xs:element name="findByCompaniesPersons" type="tns:findByCompaniesPersons"/>
+
+<xs:element name="findByCompaniesPersonsResponse" type="tns:findByCompaniesPersonsResponse"/>
+
+<xs:element name="findRange" type="tns:findRange"/>
+
+<xs:element name="findRangeResponse" type="tns:findRangeResponse"/>
+
+<xs:element name="person" type="tns:person"/>
+
+<xs:element name="registerRelation" type="tns:registerRelation"/>
+
+<xs:element name="registerRelationResponse" type="tns:registerRelationResponse"/>
+
+<xs:element name="removeRelation" type="tns:removeRelation"/>
+
+<xs:element name="removeRelationResponse" type="tns:removeRelationResponse"/>
+
+<xs:element name="validateRelation" type="tns:validateRelation"/>
+
+<xs:element name="validateRelationResponse" type="tns:validateRelationResponse"/>
+
+<xs:complexType name="count">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="countResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="registerRelation">
+<xs:sequence>
+<xs:element name="personCedule" type="xs:long" minOccurs="0"/>
+<xs:element name="companyId" type="xs:long" minOccurs="0"/>
+<xs:element name="rolPerson" type="xs:string" minOccurs="0"/>
+<xs:element name="passwordCompany" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="registerRelationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rOb" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="rOb">
+<xs:sequence>
+<xs:element name="data" type="xs:anyType" minOccurs="0"/>
+<xs:element name="err_message" type="xs:string" minOccurs="0"/>
+<xs:element name="success" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findAll">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="findAllResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:person" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="person">
+<xs:sequence>
+<xs:element name="address" type="xs:string" minOccurs="0"/>
+<xs:element name="birth" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="cedule" type="xs:long" minOccurs="0"/>
+<xs:element name="death" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="dtype" type="xs:string" minOccurs="0"/>
+<xs:element name="mail" type="xs:string" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateRelation">
+<xs:sequence>
+<xs:element name="personCedule" type="xs:long" minOccurs="0"/>
+<xs:element name="companyId" type="xs:long" minOccurs="0"/>
+<xs:element name="personPassword" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="validateRelationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rOb" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findRange">
+<xs:sequence>
+<xs:element name="range" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findRangeResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:person" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeRelation">
+<xs:sequence>
+<xs:element name="personCedule" type="xs:long" minOccurs="0"/>
+<xs:element name="companyId" type="xs:long" minOccurs="0"/>
+<xs:element name="passwordCompany" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeRelationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rOb" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findByCompaniesPersons">
+<xs:sequence>
+<xs:element name="personCedule" type="xs:long" minOccurs="0"/>
+<xs:element name="companyId" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findByCompaniesPersonsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:rOb" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

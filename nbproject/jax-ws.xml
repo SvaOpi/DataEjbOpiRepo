@@ -1,6 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
+    <service name="EpsWs">
+      <implementation-class>com.dataejbopi.ws.EpsWs</implementation-class>
+    </service>
+    <service name="PersonOpiWs">
+      <implementation-class>com.dataejbopi.ws.PersonOpiWs</implementation-class>
+    </service>
+    <service name="PinWs">
+      <implementation-class>com.dataejbopi.ws.PinWs</implementation-class>
+    </service>
+    <service name="PaymentWs">
+      <implementation-class>com.dataejbopi.ws.PaymentWs</implementation-class>
+    </service>
   </services>
-  <clients/>
+  <clients>
+    <client name="PersonWs">
+      <wsdl-url>http://localhost:8080/PersonWs/PersonWs?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/PersonWs/PersonWs.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">com.sraperson.wsc</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>http://localhost:8080/PersonWs/PersonWs?wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>package</wsimport-option-name>
+          <wsimport-option-value>com.sraperson.wsc</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
+    <client name="CompanyPersonWs">
+      <wsdl-url>http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?wsdl</wsdl-url>
+      <local-wsdl-file>idea-PC_8080/CompanyPersonWs/CompanyPersonWs.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">com.sracompanyperson.wsc</package-name>
+      <catalog-file>catalog.xml</catalog-file>
+      <wsimport-options>
+        <wsimport-option>
+          <wsimport-option-name>extension</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>verbose</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>wsdlLocation</wsimport-option-name>
+          <wsimport-option-value>http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?wsdl</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xnocompile</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>xendorsed</wsimport-option-name>
+          <wsimport-option-value>true</wsimport-option-value>
+        </wsimport-option>
+        <wsimport-option>
+          <wsimport-option-name>package</wsimport-option-name>
+          <wsimport-option-value>com.sracompanyperson.wsc</wsimport-option-value>
+        </wsimport-option>
+      </wsimport-options>
+    </client>
+  </clients>
 </jax-ws>
