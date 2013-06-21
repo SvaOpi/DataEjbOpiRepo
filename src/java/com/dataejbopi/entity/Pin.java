@@ -55,7 +55,7 @@ public class Pin implements Serializable {
     private String pinstate;
     @JoinColumn(name = "PERSONS_CEDULE", referencedColumnName = "CEDULE")
     @ManyToOne(cascade = CascadeType.REMOVE)
-    private Person person;
+    private PersonOpi person;
     @OneToOne(orphanRemoval = true,cascade = CascadeType.ALL)
     private Payment payment;
 
@@ -98,11 +98,11 @@ public class Pin implements Serializable {
         this.pinstate = pinstate;
     }
 
-    public Person getPerson() {
+    public PersonOpi getPerson() {
         return person;
     }
 
-    public void setPerson(Person person) {
+    public void setPerson(PersonOpi person) {
         this.person = person;
     }
 

@@ -1,11 +1,11 @@
-/*
+ /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Payment;
-import com.dataejbopi.entity.Person;
+import com.dataejbopi.entity.PersonOpi;
 import com.dataejbopi.entity.Pin;
 import com.dataejbopi.timer.LocalDateTimer;
 import com.dataejbopi.vo.ROb;
@@ -45,7 +45,7 @@ public class PinFacade extends AbstractFacade<Pin> {
     public ROb<Pin> registerPin(Long personCedule){
         ROb<Pin> rob = new ROb<Pin>();
         try{
-            Person person = personFacade.findByCedule(personCedule).getData();  
+            PersonOpi person = personFacade.findByCedule(personCedule).getData();  
             Double salary = person.getSalary();
             Date currentDate = new Date();
             currentDate.setYear(localDateTimer.getLocalDate().getYear());
@@ -114,10 +114,35 @@ public class PinFacade extends AbstractFacade<Pin> {
         }
     }
     
+    public ROb<List<Pin>> findByPerson(Long cedule){
+        ROb<List<Pin>> rob = new ROb<List<Pin>> ();
+        try{
+            PersonOpi person = personFacade.findByCedule(cedule).getData();
+            if(person==null){
+                rob.setErr_message("Cant Find this Object");
+                rob.setSuccess(false);
+            } else {
+                List<Pin> listPin =  (List<Pin>) person.getPinCollection();
+                if(listPin==null || listPin.isEmpty()){
+                    rob.setErr_message("Empty List");
+                    rob.setSuccess(false);
+                    return rob;
+                }
+                rob.setData(listPin);
+                rob.setSuccess(true);
+            }
+            return rob;
+        }catch(Exception e){
+            rob.setSuccess(false);
+            rob.setErr_message("Failed transaction");
+            return rob;
+        }
+    }
+    
     public ROb<Pin> getLastPinCreated (Long cedule){
         ROb<Pin> rob = new ROb<Pin>();
         try{
-            Person person = (Person) personFacade.findByCedule(cedule).getData();
+            PersonOpi person = personFacade.findByCedule(cedule).getData();
             if(person==null){
                 rob.setErr_message("Cant Find this Object");
                 rob.setSuccess(false);
@@ -178,8 +203,8 @@ public class PinFacade extends AbstractFacade<Pin> {
         }
     }
     
-    public ROb<ArrayList<TransactionVo>> getTransactionData(Long id){
-        ROb<ArrayList<TransactionVo>> rob = new ROb<ArrayList<TransactionVo>>();
+    public ROb<List<TransactionVo>> getTransactionData(Long id){
+        ROb<List<TransactionVo>> rob = new ROb<List<TransactionVo>>();
         try {
             ROb response = findById(id);
             Long opiAccount = null;

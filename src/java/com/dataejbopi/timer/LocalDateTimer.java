@@ -5,7 +5,7 @@
 package com.dataejbopi.timer;
 
 import com.dataejbopi.entity.Payment;
-import com.dataejbopi.entity.Person;
+import com.dataejbopi.entity.PersonOpi;
 import com.dataejbopi.entity.Pin;
 import com.dataejbopi.facade.PaymentFacade;
 import com.dataejbopi.facade.PersonFacade;
@@ -46,7 +46,7 @@ public class LocalDateTimer {
         //Create Pin on last Day
         if(localDate.getDate()==28){
             System.out.println("X---------------------- Create Automatically Pin ----------------------X");
-            for(Person person:personFacade.findAll()){
+            for(PersonOpi person:personFacade.findAll()){
                 Pin pin = (Pin) pinFacade.getLastPinCreated(person.getCedule()).getData();
                 if(pin==null){
                     pinFacade.registerPin(person.getCedule());

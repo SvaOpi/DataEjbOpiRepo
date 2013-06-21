@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Person.findAll", query = "SELECT p FROM Person p"),
     @NamedQuery(name = "Person.findByCedule", query = "SELECT p FROM Person p WHERE p.cedule = :cedule"),
     @NamedQuery(name = "Person.findByDtype", query = "SELECT p FROM Person p WHERE p.dtype = :dtype")})
-public class Person implements Serializable {
+public class PersonOpi implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +49,10 @@ public class Person implements Serializable {
     @OneToMany(mappedBy = "person", orphanRemoval = true)
     private Collection<Pin> pinCollection;
 
-    public Person() {
+    public PersonOpi() {
     }
 
-    public Person(Long cedule) {
+    public PersonOpi(Long cedule) {
         this.cedule = cedule;
     }
 
@@ -107,10 +107,10 @@ public class Person implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Person)) {
+        if (!(object instanceof PersonOpi)) {
             return false;
         }
-        Person other = (Person) object;
+        PersonOpi other = (PersonOpi) object;
         if ((this.cedule == null && other.cedule != null) || (this.cedule != null && !this.cedule.equals(other.cedule))) {
             return false;
         }

@@ -5,7 +5,7 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Eps;
-import com.dataejbopi.entity.Person;
+import com.dataejbopi.entity.PersonOpi;
 import com.dataejbopi.vo.ROb;
 import java.util.List;
 import javax.ejb.EJB;
@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
  * @author Usuario1
  */
 @Stateless
-public class PersonFacade extends AbstractFacade<Person> {
+public class PersonFacade extends AbstractFacade<PersonOpi> {
     @PersistenceContext(unitName = "DataEjbOpiPU")
     private EntityManager em;
     @EJB
@@ -30,23 +30,23 @@ public class PersonFacade extends AbstractFacade<Person> {
     }
 
     public PersonFacade() {
-        super(Person.class);
+        super(PersonOpi.class);
     }
     
-    public ROb<Person> registerPerson(Long cedule,Double salary, Long epsId){
-        ROb<Person> rob = new ROb<Person>();
+    public ROb<PersonOpi> registerPerson(Long cedule,Double salary, Long epsId){
+        ROb<PersonOpi> rob = new ROb<PersonOpi>();
         try{
             Eps eps = epsFacade.findById(epsId).getData();
-            Person person = findByCedule(cedule).getData(); //Find person on SRA        
+            PersonOpi person = findByCedule(cedule).getData(); //Find person on SRA        
             //if(eps!=null && person!=null){
             if(eps!=null ){
-                person = new Person();
+                person = new PersonOpi();
                 person.setCedule(cedule);
                 person.setDtype("CC");
                 person.setEps(eps);
                 person.setSalary(salary);
                 create(person);
-                List<Person> listPerson = findAll();
+                List<PersonOpi> listPerson = findAll();
                 person = listPerson.get(listPerson.size()-1);
                 //ROb rob2 = CompanyFacade.registerRelation(person.getCedule(), opiID, "user", opiPassword);
                 rob.setData(person);
@@ -63,10 +63,10 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb<Person> validateLogin(String userName, String userPassword){
-        ROb<Person> rob = new ROb<Person>();
+    public ROb<PersonOpi> validateLogin(String userName, String userPassword){
+        ROb<PersonOpi> rob = new ROb<PersonOpi>();
         try{
-            Person person = find(1);// Find Person in OPI  
+            PersonOpi person = find(1);// Find PersonOpi in OPI  
             //CompanyPerson companyPerson = (CompanyPerson)validateRelation(userNane, opiID, userPassword).getData() //// Validate relation in SRA ( 
             //if(person!=null && companyPerson != null and companyPerson.isSucces()){  //validation data
             if(person!=null){
@@ -86,10 +86,10 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb<Person> findByCedule(Long cedule){
-        ROb<Person> rob = new ROb<Person>();
+    public ROb<PersonOpi> findByCedule(Long cedule){
+        ROb<PersonOpi> rob = new ROb<PersonOpi>();
         try{
-            Person person = find(cedule);// find person  in OPI 
+            PersonOpi person = find(cedule);// find person  in OPI 
             //Person person2 = (person)findByCedule(cedule).getData() // find person  in SRA 
             //if(person!=null && person2 != null){  //validation data             
             if(person==null){
@@ -107,10 +107,10 @@ public class PersonFacade extends AbstractFacade<Person> {
         }
     }
     
-    public ROb<Person> removeByCedule(Long cedule){
-        ROb<Person> rob = new ROb<Person>();
+    public ROb<PersonOpi> removeByCedule(Long cedule){
+        ROb<PersonOpi> rob = new ROb<PersonOpi>();
         try{
-           Person p = find(cedule);
+           PersonOpi p = find(cedule);
             if(p!=null){
                 //ROb rob2 = CompanyFacade.removeRelation(person.getCedule(), opiID, opiPassword);
                 remove(p);

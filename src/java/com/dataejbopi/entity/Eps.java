@@ -50,7 +50,7 @@ public class Eps implements Serializable {
     @Column(name = "NAME")
     private String name;
     @OneToMany(mappedBy = "eps", orphanRemoval = true)
-    private Collection<Person> personCollection;
+    private Collection<PersonOpi> personCollection;
 
     public Eps() {
     }
@@ -92,11 +92,11 @@ public class Eps implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Person> getPersonCollection() {
+    public Collection<PersonOpi> getPersonCollection() {
         return personCollection;
     }
 
-    public void setPersonCollection(Collection<Person> personCollection) {
+    public void setPersonCollection(Collection<PersonOpi> personCollection) {
         this.personCollection = personCollection;
     }
 

@@ -5,7 +5,7 @@
 package com.dataejbopi.facade;
 
 import com.dataejbopi.entity.Payment;
-import com.dataejbopi.entity.Person;
+import com.dataejbopi.entity.PersonOpi;
 import com.dataejbopi.entity.Pin;
 import com.dataejbopi.timer.LocalDateTimer;
 import com.dataejbopi.vo.ROb;
@@ -169,7 +169,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     public ROb<Payment> onlinePayment(Long cedule, Long personAccount, String passwordAccount){
         ROb<Payment> rob = new ROb<Payment>();
         try {
-            Person person = personFacade.findByCedule(cedule).getData();
+            PersonOpi person = personFacade.findByCedule(cedule).getData();
             if(person!=null){
                 //Find personAccount on the bank, validate password(?)
                 ROb<Pin> pinRegisterRob = pinFacade.registerPin(personAccount);
