@@ -74,7 +74,7 @@
     <target name="wsimport-client-CompanyPersonWs" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/CompanyPersonWs"/>
         <property name="wsdl-CompanyPersonWs" location="${meta.inf}/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/CompanyPersonWs" destdir="${build.generated.dir}/jax-wsCache/CompanyPersonWs" wsdl="${wsdl-CompanyPersonWs}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?wsdl" xnocompile="true" xendorsed="true" package="com.sracompanyperson.wsc">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/CompanyPersonWs" destdir="${build.generated.dir}/jax-wsCache/CompanyPersonWs" wsdl="${wsdl-CompanyPersonWs}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" xnocompile="true" xendorsed="true" package="com.sracompanyperson.wsc">
             <depends file="${wsdl-CompanyPersonWs}"/>
             <produces dir="${build.generated.dir}/jax-wsCache/CompanyPersonWs"/>
         </wsimport>

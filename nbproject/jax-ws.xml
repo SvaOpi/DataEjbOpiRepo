@@ -48,7 +48,7 @@
       </wsimport-options>
     </client>
     <client name="CompanyPersonWs">
-      <wsdl-url>http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?wsdl</wsdl-url>
+      <wsdl-url>http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl</wsdl-url>
       <local-wsdl-file>idea-PC_8080/CompanyPersonWs/CompanyPersonWs.wsdl</local-wsdl-file>
       <package-name forceReplace="true">com.sracompanyperson.wsc</package-name>
       <catalog-file>catalog.xml</catalog-file>
@@ -63,7 +63,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

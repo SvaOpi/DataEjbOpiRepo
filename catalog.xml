@@ -4,9 +4,9 @@
     <system systemId="http://localhost:8080/PersonWs/PersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/PersonWs/wsdl/localhost_8080/PersonWs/PersonWs.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/localhost_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/localhost_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
-    <system systemId="http://idea-pc:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-pc_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
-    <system systemId="http://idea-pc:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-pc_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
-    <system systemId="http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.xml"/>
-    <system systemId="http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
-    <system systemId="http://idea-PC:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-pc_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-pc_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.xml"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
 </catalog>
