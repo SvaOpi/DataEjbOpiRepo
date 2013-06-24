@@ -32,7 +32,7 @@ public class PersonFacade extends AbstractFacade<PersonOpi> {
     private EpsFacade epsFacade = new EpsFacade();
     
     
-    private Long idOpi = Long.getLong("1");
+    private Long idOpi = Long.parseLong("1");
     private String passwordOpi = "opi";
 
     @Override
@@ -50,7 +50,6 @@ public class PersonFacade extends AbstractFacade<PersonOpi> {
             Eps eps = epsFacade.findById(epsId).getData();  
             com.sraperson.wsc.Person personSra = (com.sraperson.wsc.Person) findByCedule_1(cedule).getData();
             if(eps!=null && personSra !=null){
-                System.out.println("todo bien" + personSra.toString());
                 PersonOpi person = new PersonOpi();
                 person.setCedule(cedule);
                 person.setDtype("CC");
@@ -83,8 +82,13 @@ public class PersonFacade extends AbstractFacade<PersonOpi> {
         ROb<String> rob = new ROb<String>();
         try{ 
             com.sraperson.wsc.ROb rob2 = findByUserName(userName);
+            if(rob2.isSuccess()==false){
+                rob.setErr_message("user name not found");
+                rob.setSuccess(false);
+                return rob;
+            }
             com.sraperson.wsc.Person person = (com.sraperson.wsc.Person) rob2.getData();
-            com.sracompanyperson.wsc.ROb rob3 = validateRelation(person.getCedule(), idOpi, userPassword); // Validate relation in SRA ( 
+            com.sracompanyperson.wsc.ROb rob3 = validateRelation(person.getCedule(), idOpi, userPassword); 
             com.sracompanyperson.wsc.CompanyPerson companyPerson = (com.sracompanyperson.wsc.CompanyPerson) rob3.getData();
             if(person!=null && companyPerson != null && rob3.isSuccess()==true){
                 PersonOpi personOpi = find(person.getCedule());
@@ -101,6 +105,7 @@ public class PersonFacade extends AbstractFacade<PersonOpi> {
             }
             return rob;
         }catch(Exception e){
+            e.printStackTrace();
             rob.setSuccess(false);
             rob.setErr_message("Failed transaction");
             return rob;
