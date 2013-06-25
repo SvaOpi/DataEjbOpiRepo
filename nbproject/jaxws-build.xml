@@ -88,5 +88,22 @@
         <delete dir="${build.generated.dir}/jax-wsCache/CompanyPersonWs"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/com/sracompanyperson/wsc"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-PersonWs, wsimport-client-CompanyPersonWs"/>
+    <target name="wsimport-client-Payment" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/Payment"/>
+        <property name="wsdl-Payment" location="${meta.inf}/xml-resources/web-service-references/Payment/wsdl/25.82.0.232_8080/Payment/Payment.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Payment" destdir="${build.generated.dir}/jax-wsCache/Payment" wsdl="${wsdl-Payment}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" wsdlLocation="http://25.82.0.232:8080/Payment/Payment?wsdl" xnocompile="true" xendorsed="true" package="com.bank.wsc.payment">
+            <depends file="${wsdl-Payment}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/Payment"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/Payment">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-Payment" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/Payment"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/bank/wsc/payment"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-PersonWs, wsimport-client-CompanyPersonWs, wsimport-client-Payment"/>
 </project>

@@ -2,11 +2,13 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/PersonWs/PersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/PersonWs/wsdl/localhost_8080/PersonWs/PersonWs.wsdl"/>
     <system systemId="http://localhost:8080/PersonWs/PersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/PersonWs/wsdl/localhost_8080/PersonWs/PersonWs.xsd_1.xsd"/>
-    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/localhost_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
-    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/localhost_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-pc_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-pc_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.xml"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
     <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/idea-PC_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?wsdl" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/localhost_8080/CompanyPersonWs/CompanyPersonWs.wsdl"/>
+    <system systemId="http://localhost:8080/CompanyPersonWs/CompanyPersonWs?xsd=1" uri="src/conf/xml-resources/web-service-references/CompanyPersonWs/wsdl/localhost_8080/CompanyPersonWs/CompanyPersonWs.xsd_1.xsd"/>
+    <system systemId="http://25.82.0.232:8080/Payment/Payment?wsdl" uri="src/conf/xml-resources/web-service-references/Payment/wsdl/25.82.0.232_8080/Payment/Payment.wsdl"/>
+    <system systemId="http://25.82.0.232:8080/Payment/Payment?xsd=1" uri="src/conf/xml-resources/web-service-references/Payment/wsdl/25.82.0.232_8080/Payment/Payment.xsd_1.xsd"/>
 </catalog>

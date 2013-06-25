@@ -4,6 +4,8 @@
  */
 package com.dataejbopi.facade;
 
+import com.bank.wsc.payment.Payment_Service;
+import com.bank.wsc.payment.RObImpl;
 import com.dataejbopi.entity.Payment;
 import com.dataejbopi.entity.PersonOpi;
 import com.dataejbopi.entity.Pin;
@@ -15,6 +17,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
@@ -22,6 +25,8 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PaymentFacade extends AbstractFacade<Payment> {
+    @WebServiceRef(wsdlLocation = "META-INF/wsdl/25.82.0.232_8080/Payment/Payment.wsdl")
+    private Payment_Service service;
     @PersistenceContext(unitName = "DataEjbOpiPU")
     private EntityManager em;
     @EJB
@@ -30,6 +35,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     private LocalDateTimer localDateTimer;
     @EJB
     private PersonFacade personFacade;
+    private Long opiAccountNumber;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -167,6 +173,7 @@ public class PaymentFacade extends AbstractFacade<Payment> {
     public ROb<Payment> onlinePayment(Long cedule, Long personAccount, String passwordAccount){
         ROb<Payment> rob = new ROb<Payment>();
         try {
+            opiAccountNumber=Long.parseLong("1");
             PersonOpi person = personFacade.findByCedule(cedule).getData();
             if(person!=null){
                 //Find personAccount on the bank, validate password(?)
@@ -174,11 +181,17 @@ public class PaymentFacade extends AbstractFacade<Payment> {
                 if(pinRegisterRob.isSuccess()){
                     Payment payment = pinRegisterRob.getData().getPayment();
                     Long transaction= null;
-                    // Transaction = number of transaction un the bank system
-                    // -->transaction(personAccount, epsAccount, payment.getHealtServiceValue());
-                    // -->transaction(personAccount, opiAccount, payment.getOpiServiceValue());
-                    // if all it's fine
-                    registerPaymentComplete(payment.getId(), transaction);
+                    RObImpl robPayEps = pay(personAccount,person.getEps().getAccountnumber(),payment.getHealtServiceValue(),passwordAccount);
+                    RObImpl robPayOpi = pay(personAccount,opiAccountNumber,payment.getOpiServiceValue(),passwordAccount);
+                    if(!robPayEps.isSuccess()){
+                        rob.setErr_message("Cant complete transaction to Eps Account");
+                        rob.setSuccess(false);
+                    }else if(!robPayOpi.isSuccess()){
+                        rob.setErr_message("Cant complete transaction to Opi Account");
+                        rob.setSuccess(false);                        
+                    }else{
+                        registerPaymentComplete(payment.getId(), transaction);
+                    }
                 }else{
                     rob.setErr_message("Cant register the Pin");
                     rob.setSuccess(false);
@@ -210,4 +223,9 @@ public class PaymentFacade extends AbstractFacade<Payment> {
             return rob;
         }
     }  
+
+    private RObImpl pay(long source, long destination, double amount, java.lang.String passwd) {
+        com.bank.wsc.payment.Payment port = service.getPaymentPort();
+        return port.pay(source, destination, amount, passwd);
+    }
 }
